@@ -59,9 +59,7 @@ class UsecaseTests(TemporaryStorageTestCase):
         self.assertNotEqual(self.user.user_id, second.user_id)
         users = (self.directory / "data" / "users.json").read_text(encoding="utf-8")
         logs = (self.directory / "logs" / "actions.log").read_text(encoding="utf-8")
-        for password in (
-            "unique password", "wrong password needle", "other password needle"
-        ):
+        for password in ("unique password", "wrong password needle", "other password needle"):
             self.assertNotIn(password, users)
             self.assertNotIn(password, logs)
         self.assertIn('"action": "REGISTER"', logs)
@@ -181,9 +179,7 @@ class UsecaseTests(TemporaryStorageTestCase):
             self.assertEqual(40_000, cross["rate"])
             self.assertEqual(older, cross["updated_at"])
             update.assert_not_called()
-        snapshot["pairs"]["USD_EUR"]["updated_at"] = to_iso(
-            utc_now() - timedelta(seconds=70)
-        )
+        snapshot["pairs"]["USD_EUR"]["updated_at"] = to_iso(utc_now() - timedelta(seconds=70))
         self.database.write("rates", snapshot)
         with patch.object(
             usecases, "update_rates", side_effect=ApiRequestError("Сеть недоступна")
@@ -199,9 +195,7 @@ class RateCacheTests(TemporaryStorageTestCase):
     def test_cached_rate_expires_even_when_snapshot_has_not_changed(self):
         moment = datetime(2026, 10, 8, 9, 0, tzinfo=UTC)
         snapshot = {
-            "pairs": {
-                "BTC_USD": {"rate": 50_000, "updated_at": to_iso(moment), "source": "test"}
-            }
+            "pairs": {"BTC_USD": {"rate": 50_000, "updated_at": to_iso(moment), "source": "test"}}
         }
         resolve = create_rate_cache()
         with patch("valutatrade_hub.core.utils.utc_now", return_value=moment):
@@ -215,9 +209,7 @@ class RateCacheTests(TemporaryStorageTestCase):
     def test_mutated_snapshot_invalidates_cached_value(self):
         moment = utc_now() - timedelta(seconds=1)
         snapshot = {
-            "pairs": {
-                "BTC_USD": {"rate": 50_000, "updated_at": to_iso(moment), "source": "test"}
-            }
+            "pairs": {"BTC_USD": {"rate": 50_000, "updated_at": to_iso(moment), "source": "test"}}
         }
         resolve = create_rate_cache()
         self.assertEqual(50_000, resolve("BTC", "USD", snapshot, 60)["rate"])

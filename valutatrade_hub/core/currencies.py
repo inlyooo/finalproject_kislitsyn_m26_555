@@ -43,24 +43,17 @@ class FiatCurrency(Currency):
 
     def __init__(self, name: str, code: str, issuing_country: str):
         super().__init__(name, code)
-        self.issuing_country = _nonempty_text(
-            issuing_country, "Страна выпуска"
-        )
+        self.issuing_country = _nonempty_text(issuing_country, "Страна выпуска")
 
     def get_display_info(self) -> str:
         """Показать название и страну выпуска валюты."""
-        return (
-            f"[FIAT] {self.code} — {self.name} "
-            f"(Issuing: {self.issuing_country})"
-        )
+        return f"[FIAT] {self.code} — {self.name} (Issuing: {self.issuing_country})"
 
 
 class CryptoCurrency(Currency):
     """Криптовалюта с алгоритмом и справочной капитализацией."""
 
-    def __init__(
-        self, name: str, code: str, algorithm: str, market_cap: float
-    ):
+    def __init__(self, name: str, code: str, algorithm: str, market_cap: float):
         super().__init__(name, code)
         self.algorithm = _nonempty_text(algorithm, "Алгоритм")
         if (

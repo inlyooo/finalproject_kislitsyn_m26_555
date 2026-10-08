@@ -63,7 +63,7 @@ class SettingsTests(TemporaryStorageTestCase):
     def test_environment_overrides_config_and_config_overrides_default(self):
         config = self.directory / "settings.toml"
         config.write_text(
-            '[tool.valutatrade]\nRATES_TTL_SECONDS = 123\nREQUEST_TIMEOUT = 4\n',
+            "[tool.valutatrade]\nRATES_TTL_SECONDS = 123\nREQUEST_TIMEOUT = 4\n",
             encoding="utf-8",
         )
         with patch.dict(os.environ, {"VALUTATRADE_CONFIG": str(config)}):

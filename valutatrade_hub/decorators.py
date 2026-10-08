@@ -2,6 +2,7 @@
 
 import inspect
 import json
+import math
 from functools import wraps
 
 from valutatrade_hub.core.utils import to_iso, utc_now
@@ -18,7 +19,10 @@ def log_action(func):
         entry = {"timestamp": to_iso(utc_now()), "action": func.__name__.upper()}
         for key in ("user_id", "username", "currency", "amount"):
             if key in arguments:
-                entry[key] = arguments[key]
+                value = arguments[key]
+                entry[key] = (
+                    repr(value) if isinstance(value, float) and not math.isfinite(value) else value
+                )
         try:
             result = func(*args, **kwargs)
         except Exception as error:

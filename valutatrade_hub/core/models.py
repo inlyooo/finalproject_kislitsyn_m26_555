@@ -20,9 +20,7 @@ SALT_BYTES = 16
 class User:
     """Пользователь с приватными полями и солёным SHA-256 пароля."""
 
-    def __init__(
-        self, user_id, username, hashed_password, salt, registration_date
-    ):
+    def __init__(self, user_id, username, hashed_password, salt, registration_date):
         if isinstance(user_id, bool) or not isinstance(user_id, int):
             raise ValueError("ID пользователя должен быть целым числом.")
         if user_id <= 0:
@@ -43,9 +41,7 @@ class User:
     def _validate_password(password):
         """Проверить учебное требование к длине пароля."""
         if not isinstance(password, str) or len(password) < MIN_PASSWORD_LENGTH:
-            raise ValueError(
-                f"Пароль должен содержать минимум {MIN_PASSWORD_LENGTH} символа."
-            )
+            raise ValueError(f"Пароль должен содержать минимум {MIN_PASSWORD_LENGTH} символа.")
 
     @staticmethod
     def _hash_password(password, salt):
@@ -158,9 +154,7 @@ class Wallet:
         """Списать положительную сумму, сохраняя баланс >= 0."""
         amount = validate_amount(amount)
         if amount > self.balance:
-            raise InsufficientFundsError(
-                self.balance, amount, self.currency_code
-            )
+            raise InsufficientFundsError(self.balance, amount, self.currency_code)
         self.balance -= amount
 
     def get_balance_info(self):
@@ -247,9 +241,7 @@ class Portfolio:
         """Подготовить портфель для portfolios.json."""
         return {
             "user_id": self.user_id,
-            "wallets": {
-                code: wallet.to_dict() for code, wallet in self._wallets.items()
-            },
+            "wallets": {code: wallet.to_dict() for code, wallet in self._wallets.items()},
         }
 
     @classmethod
@@ -257,8 +249,5 @@ class Portfolio:
         """Восстановить портфель, сохранив связь с его владельцем."""
         if data["user_id"] != user.user_id:
             raise ValueError("ID портфеля не совпадает с владельцем.")
-        wallets = {
-            code: Wallet.from_dict(code, wallet)
-            for code, wallet in data["wallets"].items()
-        }
+        wallets = {code: Wallet.from_dict(code, wallet) for code, wallet in data["wallets"].items()}
         return cls(user, wallets, rate_getter)

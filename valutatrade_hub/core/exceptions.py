@@ -19,15 +19,16 @@ class CurrencyNotFoundError(ValueError):
 
     def __init__(self, code):
         self.code = code
-        super().__init__(f"Неизвестная валюта: {code}.")
+        super().__init__(f"Неизвестная валюта '{code}'")
 
 
 class ApiRequestError(RuntimeError):
     """Курс недоступен или внешний источник вернул ошибку."""
 
     def __init__(self, reason):
-        self.reason = reason
-        super().__init__(f"Не удалось получить курс: {reason}.")
+        prefix = "Ошибка при обращении к внешнему API: "
+        self.reason = str(reason).replace(prefix, "").rstrip(".")
+        super().__init__(f"{prefix}{self.reason}")
 
 
 class AuthenticationError(ValueError):

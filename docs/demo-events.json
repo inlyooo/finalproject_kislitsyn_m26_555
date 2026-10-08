@@ -1,0 +1,194 @@
+{
+  "metadata": {
+    "title": "ValutaTrade Hub — реальные команды на учебных фикстурах",
+    "created_at": "2026-10-08T09:38:47Z",
+    "data_mode": "local_http_fixture",
+    "notice": "УЧЕБНАЯ ДЕМОНСТРАЦИЯ: все цены — локальные фикстуры, не рыночные котировки. CLI, requests и JSON-хранилище работают реально; HTTP API запущен на 127.0.0.1.",
+    "pacing": "Время событий рассчитано для чтения; скорость набора не измерялась.",
+    "real_elapsed_seconds": 0.828,
+    "display_duration_seconds": 68.72,
+    "width": 110,
+    "height": 30
+  },
+  "events": [
+    {
+      "time": 0.0,
+      "command": null,
+      "output": "УЧЕБНАЯ ДЕМОНСТРАЦИЯ: все цены — локальные фикстуры, не рыночные котировки. CLI, requests и JSON-хранилище работают реально; HTTP API запущен на 127.0.0.1.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 2.5,
+      "command": "update-rates",
+      "output": ">>> update-rates\nОбновлено курсов: 6. Последнее обновление: 2026-10-08T09:38:47Z.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 5.0,
+      "command": "register --username demo --password dummy1234",
+      "output": ">>> register --username demo --password dummy1234\nПользователь 'demo' зарегистрирован (id=1). Выполните login.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 7.5,
+      "command": "login --username demo --password dummy1234",
+      "output": ">>> login --username demo --password dummy1234\nВы вошли как 'demo'.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 10.0,
+      "command": "show-portfolio",
+      "output": ">>> show-portfolio\nПортфель пользователя 'demo' (база: USD):\nПортфель пуст. Пополните виртуальный USD: deposit --amount 10000.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 12.5,
+      "command": "deposit --amount 10000",
+      "output": ">>> deposit --amount 10000\nВиртуальный баланс пополнен на 10000 USD. Баланс: 10000.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 15.0,
+      "command": "buy --currency BTC --amount 0.05",
+      "output": ">>> buy --currency BTC --amount 0.05\nПодтвердить покупку 0.05 BTC? [y/N]: y\nПокупка выполнена: 0.05 BTC по курсу 50000 USD. Стоимость: 2500.00 USD.\nBTC: 0 → 0.05; USD: 10000 → 7500.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 17.5,
+      "command": "buy --currency ETH --amount 1",
+      "output": ">>> buy --currency ETH --amount 1\nПодтвердить покупку 1.0 ETH? [y/N]: n\nОшибка: Операция отменена\n\n",
+      "expected_code": 1,
+      "actual_code": 1
+    },
+    {
+      "time": 20.0,
+      "command": "sell --currency BTC --amount 0.01 --yes",
+      "output": ">>> sell --currency BTC --amount 0.01 --yes\nПродажа выполнена: 0.01 BTC по курсу 50000 USD. Выручка: 500.00 USD.\nBTC: 0.05 → 0.04; USD: 7500 → 8000.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 22.5,
+      "command": "buy --currency EUR --amount 100 --yes",
+      "output": ">>> buy --currency EUR --amount 100 --yes\nПокупка выполнена: 100 EUR по курсу 1.1 USD. Стоимость: 110.00 USD.\nEUR: 0 → 100; USD: 8000 → 7890.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 25.0,
+      "command": "show-portfolio --base USD",
+      "output": ">>> show-portfolio --base USD\nПортфель пользователя 'demo' (база: USD):\n+--------+--------+-----------------+\n| Валюта | Баланс | Стоимость в USD |\n+--------+--------+-----------------+\n|  BTC   |  0.04  |     2000.00     |\n|  EUR   |  100   |      110.00     |\n|  USD   |  7890  |     7890.00     |\n+--------+--------+-----------------+\nОбщая стоимость: 10000.00 USD.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 29.18,
+      "command": "show-portfolio --base EUR",
+      "output": ">>> show-portfolio --base EUR\nПортфель пользователя 'demo' (база: EUR):\n+--------+--------+-----------------+\n| Валюта | Баланс | Стоимость в EUR |\n+--------+--------+-----------------+\n|  BTC   |  0.04  |     1818.18     |\n|  EUR   |  100   |      100.00     |\n|  USD   |  7890  |     7172.73     |\n+--------+--------+-----------------+\nОбщая стоимость: 9090.91 EUR.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 33.36,
+      "command": "get-rate --from USD --to BTC",
+      "output": ">>> get-rate --from USD --to BTC\nКурс USD→BTC: 2e-05; обновлён: 2026-10-08T09:38:17Z; источник: CoinGecko.\nОбратный курс BTC→USD: 50000.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 35.86,
+      "command": "show-rates --top 2",
+      "output": ">>> show-rates --top 2\n+---------+-------+----------------------+-----------+-----------+\n|   Пара  |  Курс |       Обновлён       |  Источник | Состояние |\n+---------+-------+----------------------+-----------+-----------+\n| BTC_USD | 50000 | 2026-10-08T09:38:17Z | CoinGecko |   свежий  |\n| ETH_USD |  3000 | 2026-10-08T09:38:17Z | CoinGecko |   свежий  |\n+---------+-------+----------------------+-----------+-----------+\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 38.9,
+      "command": "show-rates --currency RUB",
+      "output": ">>> show-rates --currency RUB\n+---------+-----------------+----------------------+------------------+-----------+\n|   Пара  |       Курс      |       Обновлён       |     Источник     | Состояние |\n+---------+-----------------+----------------------+------------------+-----------+\n| RUB_USD | 0.0111111111111 | 2026-10-08T09:38:17Z | ExchangeRate-API |   свежий  |\n+---------+-----------------+----------------------+------------------+-----------+\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 41.56,
+      "command": "show-rates --base EUR",
+      "output": ">>> show-rates --base EUR\n+---------+----------------+----------------------+------------------------------+-----------+\n|   Пара  |      Курс      |       Обновлён       |           Источник           | Состояние |\n+---------+----------------+----------------------+------------------------------+-----------+\n| BTC_EUR | 45454.5454545  | 2026-10-08T09:38:17Z | CoinGecko + ExchangeRate-API |   свежий  |\n| ETH_EUR | 2727.27272727  | 2026-10-08T09:38:17Z | CoinGecko + ExchangeRate-API |   свежий  |\n| EUR_EUR |       1        | 2026-10-08T09:38:47Z |           identity           |   свежий  |\n| GBP_EUR | 1.13636363636  | 2026-10-08T09:38:17Z |       ExchangeRate-API       |   свежий  |\n| RUB_EUR | 0.010101010101 | 2026-10-08T09:38:17Z |       ExchangeRate-API       |   свежий  |\n| SOL_EUR | 90.9090909091  | 2026-10-08T09:38:17Z | CoinGecko + ExchangeRate-API |   свежий  |\n+---------+----------------+----------------------+------------------------------+-----------+\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 46.12,
+      "command": "buy --currency BTC --amount 1000 --yes",
+      "output": ">>> buy --currency BTC --amount 1000 --yes\nОшибка: Недостаточно средств: доступно 7890.0000 USD, требуется 50000000.0000 USD.\n\n",
+      "expected_code": 1,
+      "actual_code": 1
+    },
+    {
+      "time": 48.62,
+      "command": "buy --currency ZZZ --amount 1 --yes",
+      "output": ">>> buy --currency ZZZ --amount 1 --yes\nОшибка: Неизвестная валюта 'ZZZ'\n\n",
+      "expected_code": 1,
+      "actual_code": 1
+    },
+    {
+      "time": 51.12,
+      "command": "deposit --amount nan",
+      "output": ">>> deposit --amount nan\nОшибка: 'amount' должен быть положительным конечным числом\n\n",
+      "expected_code": 1,
+      "actual_code": 1
+    },
+    {
+      "time": 53.62,
+      "command": "logout",
+      "output": ">>> logout\nСессия пользователя завершена.\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 56.12,
+      "command": "buy --currency BTC --amount 0.01 --yes",
+      "output": ">>> buy --currency BTC --amount 0.01 --yes\nОшибка: Сначала выполните login --username ... --password ...\n\n",
+      "expected_code": 1,
+      "actual_code": 1
+    },
+    {
+      "time": 58.62,
+      "command": "exit",
+      "output": ">>> exit\nДо свидания!\n\n",
+      "expected_code": 0,
+      "actual_code": 0
+    },
+    {
+      "time": 61.12,
+      "command": null,
+      "output": "Проверка фактических JSON завершена:\n{\n  \"balances\": {\n    \"USD\": 7890.0,\n    \"BTC\": 0.04,\n    \"EUR\": 100.0\n  },\n  \"cached_pairs\": 6,\n  \"history_records\": 6,\n  \"http_requests\": [\n    \"/coingecko/simple/price\",\n    \"/exchangerate/latest/USD\"\n  ],\n  \"provider_timestamp\": 1791452297,\n  \"cancel_preserved_wallets\": true,\n  \"invalid_operations_preserved_balances\": true,\n  \"session_logged_out\": true,\n  \"session_exited\": true\n}\nВсе команды и итоговые балансы соответствуют проверкам.\n",
+      "expected_code": 0,
+      "actual_code": 0
+    }
+  ],
+  "verification": {
+    "balances": {
+      "USD": 7890.0,
+      "BTC": 0.04,
+      "EUR": 100.0
+    },
+    "cached_pairs": 6,
+    "history_records": 6,
+    "http_requests": [
+      "/coingecko/simple/price",
+      "/exchangerate/latest/USD"
+    ],
+    "provider_timestamp": 1791452297,
+    "cancel_preserved_wallets": true,
+    "invalid_operations_preserved_balances": true,
+    "session_logged_out": true,
+    "session_exited": true
+  }
+}

@@ -29,12 +29,8 @@ class UserTests(unittest.TestCase):
         self.assertFalse(first.verify_password("wrong"))
         self.assertFalse(first.verify_password(None))
         self.assertNotEqual(data["salt"], second.to_dict()["salt"])
-        self.assertNotEqual(
-            data["hashed_password"], second.to_dict()["hashed_password"]
-        )
-        expected = hashlib.sha256(
-            ("secret" + data["salt"]).encode("utf-8")
-        ).hexdigest()
+        self.assertNotEqual(data["hashed_password"], second.to_dict()["hashed_password"])
+        expected = hashlib.sha256(("secret" + data["salt"]).encode("utf-8")).hexdigest()
         self.assertEqual(expected, data["hashed_password"])
         self.assertNotIn("secret", repr(data))
         self.assertEqual(
@@ -57,9 +53,7 @@ class UserTests(unittest.TestCase):
         self.assertFalse(restored.verify_password("secret"))
         self.assertTrue(restored.verify_password("next password"))
         self.assertNotEqual(old["salt"], restored.to_dict()["salt"])
-        self.assertEqual(
-            old["registration_date"], restored.to_dict()["registration_date"]
-        )
+        self.assertEqual(old["registration_date"], restored.to_dict()["registration_date"])
 
     def test_invalid_identity_and_password(self):
         for value in ("", "   ", None, 123):
@@ -193,9 +187,7 @@ class PortfolioTests(unittest.TestCase):
         portfolio.add_currency("GBP")
         self.assertEqual(612, portfolio.get_total_value())
         self.assertEqual([("EUR", "USD"), ("BTC", "USD")], seen)
-        restored = Portfolio.from_dict(
-            portfolio.to_dict(), self.user, rate_getter
-        )
+        restored = Portfolio.from_dict(portfolio.to_dict(), self.user, rate_getter)
         self.assertEqual(portfolio.to_dict(), restored.to_dict())
         self.assertEqual(612, restored.get_total_value())
         euro = Portfolio(self.user, {"EUR": Wallet("EUR", 10)})
@@ -206,9 +198,7 @@ class PortfolioTests(unittest.TestCase):
         def unavailable(source, target):
             raise ApiRequestError("Источник недоступен")
 
-        portfolio = Portfolio(
-            self.user, {"BTC": Wallet("BTC", 1)}, unavailable
-        )
+        portfolio = Portfolio(self.user, {"BTC": Wallet("BTC", 1)}, unavailable)
         with self.assertRaises(ApiRequestError):
             portfolio.get_total_value()
         self.assertEqual(1, portfolio.get_wallet("BTC").balance)
@@ -220,9 +210,7 @@ class PortfolioTests(unittest.TestCase):
             )
             with self.subTest(rate=rate), self.assertRaises(ValueError):
                 portfolio.get_total_value()
-        numeric_rate = Portfolio(
-            self.user, {"EUR": Wallet("EUR", 2)}, lambda *_: 1.5
-        )
+        numeric_rate = Portfolio(self.user, {"EUR": Wallet("EUR", 2)}, lambda *_: 1.5)
         self.assertEqual(3, numeric_rate.get_total_value())
 
     def test_invalid_owner_wallet_and_owner_id(self):
