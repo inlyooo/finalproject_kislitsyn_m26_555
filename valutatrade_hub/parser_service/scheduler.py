@@ -5,6 +5,7 @@ import math
 import time
 
 from valutatrade_hub.core.exceptions import ApiRequestError
+from valutatrade_hub.core.utils import configure_console_encoding
 from valutatrade_hub.parser_service.updater import RatesUpdater
 
 
@@ -38,6 +39,7 @@ def run_scheduler(interval=3600, iterations=None, updater=None):
 
 def main(argv=None):
     """Запустить scheduler только по отдельной команде пользователя."""
+    configure_console_encoding()
     parser = argparse.ArgumentParser(description="Периодическое обновление курсов ValutaTrade Hub")
     parser.add_argument("--interval", type=int, default=3600, help="пауза между запросами, секунды")
     parser.add_argument("--iterations", type=int, help="число опросов; по умолчанию до Ctrl+C")

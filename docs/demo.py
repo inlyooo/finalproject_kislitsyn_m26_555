@@ -24,7 +24,7 @@ from unittest.mock import patch
 from urllib.parse import urlsplit
 
 from valutatrade_hub.cli.interface import Session
-from valutatrade_hub.core.utils import to_iso, utc_now
+from valutatrade_hub.core.utils import configure_console_encoding, to_iso, utc_now
 from valutatrade_hub.infra.database import DatabaseManager
 from valutatrade_hub.infra.settings import SettingsLoader
 
@@ -268,6 +268,7 @@ def save_recording(recording, directory):
 
 def main():
     """Записать демо в docs либо в явно переданный каталог."""
+    configure_console_encoding()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=Path(__file__).resolve().parent)
     arguments = parser.parse_args()

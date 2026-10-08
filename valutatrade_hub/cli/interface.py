@@ -8,6 +8,7 @@ from prettytable import PrettyTable
 
 from valutatrade_hub.core import usecases
 from valutatrade_hub.core.currencies import get_currency
+from valutatrade_hub.core.utils import configure_console_encoding
 from valutatrade_hub.decorators import confirm_action
 
 
@@ -295,6 +296,7 @@ class Session:
 
 def main(argv=None):
     """Запускает интерактивную сессию либо одну команду из argv."""
+    configure_console_encoding()
     arguments = sys.argv[1:] if argv is None else list(argv)
     session = Session()
     if arguments:

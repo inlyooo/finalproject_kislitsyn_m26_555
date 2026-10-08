@@ -4,6 +4,8 @@ import contextlib
 import io
 import logging
 import os
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -27,6 +29,28 @@ class CliTests(unittest.TestCase):
         self.redirect = contextlib.redirect_stdout(self.output)
         self.redirect.__enter__()
         self.addCleanup(self.redirect.__exit__, None, None, None)
+
+    def test_redirected_legacy_windows_encoding_preserves_unicode(self):
+        """cp1251 в дочернем процессе не ломает вывод USD→USD в пайпе."""
+        environment = os.environ.copy()
+        environment["PYTHONIOENCODING"] = "cp1251"
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-X",
+                "utf8=0",
+                "-c",
+                "from valutatrade_hub.cli.interface import main; "
+                "raise SystemExit(main(['get-rate','--from','USD','--to','USD']))",
+            ],
+            env=environment,
+            capture_output=True,
+            encoding="utf-8",
+            timeout=10,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("USD→USD: 1", result.stdout)
+        self.assertNotIn("Traceback", result.stderr)
 
     def test_full_interactive_scenario(self):
         """Полный цикл, включая пробелы в аргументах и выход."""

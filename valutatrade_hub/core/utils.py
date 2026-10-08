@@ -3,9 +3,17 @@
 import copy
 import math
 import re
+import sys
 from datetime import UTC, datetime
 
 from valutatrade_hub.core.exceptions import ApiRequestError
+
+
+def configure_console_encoding():
+    """UTF-8 сохраняет русский текст и стрелки при перенаправлении в Windows."""
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
 
 
 def utc_now():
