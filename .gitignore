@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+.env
+.env.*
+!.env.example
+logs/
+data/*.json
+!data/users.json
+!data/portfolios.json
+!data/rates.json
+!data/exchange_rates.json
+*.tmp

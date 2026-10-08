@@ -1,0 +1,40 @@
+[project]
+name = "finalproject-kislitsyn-m26-555"
+version = "1.0.0"
+description = "Учебная платформа для отслеживания и симуляции торговли валютами"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{name = "Кислицын Дмитрий Геннадьевич"}]
+dependencies = ["prettytable>=3.16,<4", "requests>=2.32,<3"]
+
+[project.scripts]
+project = "main:main"
+parser = "valutatrade_hub.parser_service.scheduler:main"
+
+[dependency-groups]
+dev = ["ruff>=0.12,<1"]
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["valutatrade_hub", "main.py"]
+
+[tool.hatch.build.targets.sdist]
+include = ["valutatrade_hub", "main.py", "pyproject.toml", "uv.lock", "README.md", "Makefile", "tests", "docs", ".gitignore", ".env.example", "data/*.json"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.valutatrade]
+DATA_DIR = "data"
+LOG_DIR = "logs"
+RATES_TTL_SECONDS = 86400
+BASE_CURRENCY = "USD"
+REQUEST_TIMEOUT = 10
+LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
