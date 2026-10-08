@@ -73,3 +73,25 @@ class DatabaseManager:
             result = callback(data)
             self.write(name, data)
             return result
+
+    def transaction(self):
+        """Блокировка составной операции внутри процесса, без блокировки диска."""
+        return self._lock
+
+    def write_many(self, documents):
+        """При ошибке записи восстановить уже записанные файлы составной операции."""
+        with self._lock:
+            originals = {name: (self._path(name).exists(), self.read(name)) for name in documents}
+            written = []
+            try:
+                for name, data in documents.items():
+                    self.write(name, data)
+                    written.append(name)
+            except BaseException:
+                for name in reversed(written):
+                    existed, data = originals[name]
+                    if existed:
+                        self.write(name, data)
+                    else:
+                        self._path(name).unlink(missing_ok=True)
+                raise
